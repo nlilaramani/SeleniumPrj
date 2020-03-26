@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import com.sel.sample.SeleniumUtils;
+import com.sel.sample.DriverUtils;
 import java.util.concurrent.TimeUnit;
 import junit.framework.Assert;
 import org.junit.After;
@@ -36,10 +36,10 @@ public class GoogleTest {
     
     @Before
     public void setUp() {
-        //driver=SeleniumUtils.getChromedriver();
-        driver=SeleniumUtils.getFirfoxDriver();
+        driver=DriverUtils.getChromedriver();
+        /*driver=SeleniumUtils.getFirfoxDriver();
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+        driver.manage().window().maximize();*/
     }
     
     @After
@@ -57,8 +57,31 @@ public class GoogleTest {
         WebElement e=driver.findElement(By.name("q"));
         e.sendKeys("Selenium jobs");
         e.submit();
-        Thread.currentThread().sleep(2000);
+       // Thread.currentThread().sleep(2000);
         System.out.println(driver.getTitle());
         Assert.assertTrue(driver.getTitle().contains("Selenium jobs"));
+    }
+    
+    
+    @Test
+    public void testFlightBooking(){
+        driver.get("http://newtours.demoaut.com");
+        WebElement e;
+        driver.findElement(By.name("userName")).sendKeys("mercury");
+        driver.findElement(By.name("password")).sendKeys("mercury");
+        driver.findElement(By.name("login")).click();
+    }*/
+    @Test
+    public void testGmailLogin(){
+        driver.get("http://www.hotmail.com");
+        driver.findElement(By.linkText("Sign in")).click();
+        driver.findElement(By.id("i0116")).sendKeys("selsample@hotmail.com");
+        driver.findElement(By.className(("btn-primary"))).click();
+        driver.findElement(By.name("passwd")).sendKeys("Sel@123!");
+        driver.findElement(By.xpath("//input[@type='checkbox']")).click();
+        driver.findElement(By.id("idSIButton9")).click();
+        //driver.findElement(By.id("identifierId")).sendKeys("nlilaramani@gmail.com");
+        driver.findElement(By.xpath("//span[text()='New message']")).click();
+        //ms-Button _33rLSYbzxvhXjgYTwfjWQI _1ojerECVeZlAkHtklkKOj5 ms-Button--commandBar root-54
     }
 }

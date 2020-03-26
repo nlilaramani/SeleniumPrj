@@ -16,7 +16,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  *
  * @author itexps
  */
-public class SeleniumUtils {
+public class DriverUtils {
     public static WebDriver getChromeDriver(){
         System.setProperty("webdriver.chrome.driver","c:\\qa\\drivers\\chromedriver.exe");
         return new ChromeDriver();
@@ -39,7 +39,6 @@ public class SeleniumUtils {
     public static void main(String[] args){
         getChromeDriver();
         getFirfoxDriver();
-        //getEdgedriver();
         getIEDriver();
                 
     }
