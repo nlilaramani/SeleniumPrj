@@ -14,8 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -36,10 +41,10 @@ public class GoogleTest {
     
     @Before
     public void setUp() {
-        driver=DriverUtils.getChromedriver();
-        /*driver=SeleniumUtils.getFirfoxDriver();
+        driver=DriverUtils.getChromeDriver();
+        /*driver=SeleniumUtils.getFirfoxDriver();*/
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        driver.manage().window().maximize();*/
+        driver.manage().window().maximize();
     }
     
     @After
@@ -51,7 +56,7 @@ public class GoogleTest {
     //
     // @Test
     // public void hello() {}
-    @Test
+   /* @Test
     public void testGoogleSearch() throws InterruptedException{
         driver.get("http://www.google.com");
         WebElement e=driver.findElement(By.name("q"));
@@ -60,10 +65,10 @@ public class GoogleTest {
        // Thread.currentThread().sleep(2000);
         System.out.println(driver.getTitle());
         Assert.assertTrue(driver.getTitle().contains("Selenium jobs"));
-    }
+    }*/
     
     
-    @Test
+    /*@Test
     public void testFlightBooking(){
         driver.get("http://newtours.demoaut.com");
         WebElement e;
@@ -72,16 +77,69 @@ public class GoogleTest {
         driver.findElement(By.name("login")).click();
     }*/
     @Test
-    public void testGmailLogin(){
+    public void testGmailLogin() throws InterruptedException{
         driver.get("http://www.hotmail.com");
         driver.findElement(By.linkText("Sign in")).click();
         driver.findElement(By.id("i0116")).sendKeys("selsample@hotmail.com");
-        driver.findElement(By.className(("btn-primary"))).click();
-        driver.findElement(By.name("passwd")).sendKeys("Sel@123!");
-        driver.findElement(By.xpath("//input[@type='checkbox']")).click();
+        WebElement btn=driver.findElement(By.className(("btn-primary")));
+        new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(btn));
+        //driver.findElement(By.className(("btn-primary"))).click();
+        btn.click();
+        Thread.currentThread().sleep(2000);
+        WebElement p=driver.findElement(By.name("passwd"));
+        p.sendKeys("Sel@123!");
+        WebElement c=driver.findElement(By.xpath("//input[@type='checkbox']"));
+        new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(c));
+        c.click();
+        //driver.findElement(By.xpath("//input[@type='checkbox']")).click();
         driver.findElement(By.id("idSIButton9")).click();
         //driver.findElement(By.id("identifierId")).sendKeys("nlilaramani@gmail.com");
-        driver.findElement(By.xpath("//span[text()='New message']")).click();
+        driver.findElement(By.xpath("//span[@data-automationid='splitbuttonprimary']")).click();
         //ms-Button _33rLSYbzxvhXjgYTwfjWQI _1ojerECVeZlAkHtklkKOj5 ms-Button--commandBar root-54
+    }
+    
+    @Test
+    public void testMultipleTabs(){
+        String wh1=driver.getWindowHandle();
+        driver.get("http://www.google.com");
+        String link="https://www.microsoft.com";
+        ((JavascriptExecutor)driver).executeScript("window.open('http://www.microsoft.com');");
+        String wh2 = (String)driver.getWindowHandles().toArray()[1];   //driver.switch_to.window(window_after)
+        //String wh2=driver.getWindowHandle();
+        System.out.println(wh2);
+        if(driver.getWindowHandle()!=wh2){
+            driver.switchTo().window(wh2);
+        }
+        driver.get("https://www.gmail.com");
+        //driver.
+    }
+    
+    @Test
+    public void testPopups(){
+        driver.get("file:///C:/Users/itexps/Documents/sample.html");
+        driver.findElement(By.tagName("button")).click();
+        String alerttext=driver.switchTo().alert().getText();
+        System.out.println(alerttext);
+        driver.switchTo().alert().dismiss();
+              
+    }
+    @Test
+    public void testIframe(){
+        driver.get("file:///C:/Users/itexps/Documents/sample.html");
+        driver.switchTo().frame("iframe_1");
+        driver.findElement(By.name("userName")).sendKeys("mercury");
+        
+    }
+    @Test
+    public void testMercuryBooking(){
+        driver.get("http://newtours.demoaut.com");
+        driver.findElement(By.name("userName")).sendKeys("mercury");
+        driver.findElement(By.name("password")).sendKeys("mercury");
+        driver.findElement(By.name("login")).click();
+        driver.findElements(By.name("tripType")).get(1).click();
+        driver.findElement(By.name("passCount")).sendKeys("2");
+        WebElement e=driver.findElement(By.name("fromPort"));
+        Select s=new Select(e);
+        s.selectByIndex(3);
     }
 }
