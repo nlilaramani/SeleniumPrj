@@ -39,8 +39,6 @@ public class EmailTest {
     public void setUp() {
         driver=DriverUtils.getChromeDriver();
         driver.manage().window().maximize();
-        //Window w=driver.manage().window();
-        //w.maximize();
         WebDriver.Timeouts t=driver.manage().timeouts();
         t.implicitlyWait(50, TimeUnit.SECONDS);
     }
@@ -59,7 +57,36 @@ public class EmailTest {
         driver.get("http://www.hotmail.com");
         WebElement e=driver.findElement(By.partialLinkText("Sign"));
         e.click();
-        e=driver.findElement(By.xpath("//input[@id='i0116']"));
+        e=driver.findElement(By.id("i0116"));
+        //e=driver.findElement(By.id("i0116"));
+        e.sendKeys("SelSample@hotmail.com");
+        //e=driver.findElement(By.className("btn-primary"));
+        e=driver.findElement(By.id("idSIButton9"));
+        new WebDriverWait(driver,10).until(ExpectedConditions.elementToBeClickable(e));
+        e.click();
+        /*(e=driver.findElement(By.tagName("a"));
+        e.click();*/
+        // Excplicitwait
+        //Thread.currentThread().sleep(4000);
+        Thread.currentThread().sleep(1000); // Pause for 3 seconds
+        
+        // Explicit timeout using Selenium
+        e=driver.findElement(By.xpath("//input[@type='password']"));
+        new WebDriverWait(driver,10).until(ExpectedConditions.elementToBeClickable(e));
+        //ExpectedConditions.
+        driver.findElement(By.xpath("//input[@type='password']")).sendKeys("Sel@123!");
+        //driver.findElement(By.name("passwd")).sendKeys("Sel@123");
+        driver.findElement(By.name("KMSI")).click();
+        driver.findElement(By.name("KMSI")).submit();
+        
+    }
+    @Test
+    public void testEmailLogin1() throws InterruptedException {
+        driver.get("http://www.msn.com");
+        
+        WebElement e=driver.findElement(By.partialLinkText("Sign"));
+        e.click();
+        e=driver.findElement(By.id("i0116"));
         //e=driver.findElement(By.id("i0116"));
         e.sendKeys("SelSample@hotmail.com");
         e=driver.findElement(By.className("btn-primary"));
