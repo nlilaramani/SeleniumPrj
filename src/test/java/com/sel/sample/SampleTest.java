@@ -14,6 +14,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -71,4 +74,21 @@ public class SampleTest {
         }
         driver.switchTo().alert().accept();
     }
+    
+    @Test
+    public void testAlert1(){
+        driver.get("file:///C:/Users/itexps/Documents/sample.html");
+        driver.findElement(By.tagName("button")).click();
+        driver.switchTo().alert().accept();
+        //driver.findElement(By.tagName("button")).click();
+    }
+    @Test
+    public void testTimeout(){
+        driver.get("file:///C:/Users/itexps/Documents/sample.html");
+        WebElement e=driver.findElement(By.tagName("button"));
+        new WebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(e));
+        e.click();
+    }
+    
+    
 }
